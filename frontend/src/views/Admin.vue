@@ -3,19 +3,21 @@
     <header class="bg-white shadow px-6 py-4 flex items-center justify-between">
       <h1 class="text-xl font-bold">管理后台</h1>
       <div class="space-x-3">
-        <span class="text-sm text-gray-600">当前用户：{{ username || '未知' }}</span>
-        <span
-          v-if="!isAdmin"
-          class="text-xs text-red-500 border border-red-400 px-2 py-1 rounded"
-        >
-          非管理员，部分功能不可用
-        </span>
+        <span class="text-sm text-gray-600">管理员：{{ username || '未知' }}</span>
+
         <router-link
           to="/"
           class="text-sm text-blue-600 hover:underline"
         >
           返回前台
         </router-link>
+
+        <button
+          @click="logout"
+          class="text-sm text-red-600 hover:underline"
+        >
+          退出
+        </button>
       </div>
     </header>
 
@@ -60,14 +62,20 @@ const tabs = [
 ]
 
 const currentTab = ref('menu')
-const token = ref(localStorage.getItem('token') || '')
-const isAdmin = ref(localStorage.getItem('is_admin') === 'true')
-const username = ref(localStorage.getItem('username') || '')
+
+// ⭐ 使用管理员 token
+const token = ref(localStorage.getItem('admin_token') || '')
+const username = ref(localStorage.getItem('admin_username') || '')
 
 onMounted(() => {
-  // 简单保护：没有 token 直接跳登录
   if (!token.value) {
-    window.location.href = '/login'
+    window.location.href = '/admin/login'
   }
 })
+
+const logout = () => {
+  localStorage.removeItem('admin_token')
+  localStorage.removeItem('admin_username')
+  window.location.href = '/admin/login'
+}
 </script>

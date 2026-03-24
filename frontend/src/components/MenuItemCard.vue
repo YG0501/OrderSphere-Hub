@@ -1,39 +1,64 @@
 <template>
-  <div
-    class="p-4 bg-white dark:bg-gray-800 rounded shadow transition transform hover:scale-[1.02] hover:shadow-lg flex flex-col"
-  >
-    <div class="flex items-center mb-3 space-x-3">
-      <img
-        v-if="item.image_url"
-        :src="`http://127.0.0.1:8000${item.image_url}`"
-        alt="菜品图片"
-        class="w-16 h-16 rounded object-cover"
-      />
+  <div class="flex items-center bg-white rounded shadow p-3 space-x-4">
+
+    <!-- 左侧小图片 -->
+    <img
+      :src="`http://127.0.0.1:8000${item.image_url}`"
+      alt=""
+      class="w-20 h-20 object-cover rounded"
+    />
+
+    <!-- 右侧信息 -->
+    <div class="flex-1 flex flex-col justify-between">
+
       <div>
-        <h3 class="text-lg font-bold">{{ item.name }}</h3>
-        <p class="text-xs text-gray-500 dark:text-gray-400">{{ item.category }} · {{ item.type }}</p>
+        <h3 class="text-lg font-semibold">{{ item.name }}</h3>
+        <p class="text-gray-600">￥{{ item.price }}</p>
       </div>
-    </div>
 
-    <p class="text-sm text-gray-700 dark:text-gray-200 flex-1">
-      {{ item.description || '这道菜还没有描述。' }}
-    </p>
+      <div class="flex items-center space-x-3 mt-2">
+        <button @click="decrease" class="px-2 bg-gray-300 rounded">-</button>
+        <span class="font-semibold">{{ quantity }}</span>
+        <button @click="increase" class="px-2 bg-gray-300 rounded">+</button>
+      </div>
 
-    <div class="mt-3 flex items-center justify-between">
-      <span class="text-lg font-bold text-green-600 dark:text-green-400">¥ {{ item.price }}</span>
-      <button @click="$emit('add', item)" class="px-3 py-1 bg-green-600 text-white rounded text-sm hover:bg-green-700">
+      <button
+        @click="add"
+        class="mt-2 bg-green-600 text-white py-1 rounded text-sm"
+      >
         加入购物车
       </button>
+
     </div>
+
   </div>
 </template>
 
 <script setup>
-defineProps({
-  item: {
-    type: Object,
-    required: true
-  }
+import { ref } from 'vue'
+
+const props = defineProps({
+  item: Object
 })
-defineEmits(['add'])
+
+const emits = defineEmits(['add'])
+
+const quantity = ref(1)
+
+const increase = () => quantity.value++
+const decrease = () => {
+  if (quantity.value > 1) quantity.value--
+}
+
+const add = () => {
+  emits('add', {
+    ...props.item,
+    quantity: quantity.value
+  })
+
+  alert(`已加入购物车：${props.item.name} × ${quantity.value}`)
+
+  // ⭐ 添加后重置数量
+  quantity.value = 1
+}
 </script>

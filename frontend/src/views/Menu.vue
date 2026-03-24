@@ -18,10 +18,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import {ref, onMounted} from 'vue'
 import api from '../api'
 import MenuItemCard from '../components/MenuItemCard.vue'
-import { useCartStore } from '../store/cart'
+import {useCartStore} from '../store/cart'
 
 const menu = ref([])
 const loading = ref(true)
