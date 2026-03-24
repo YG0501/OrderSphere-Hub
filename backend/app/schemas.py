@@ -13,9 +13,11 @@ class UserCreate(UserBase):
     password: str
     confirm_password: str
 
+    # Pydantic v2 正确写法
     @field_validator("confirm_password")
-    def passwords_match(cls, v, values):
-        if "password" in values and v != values["password"]:
+    def passwords_match(cls, v, info):
+        password = info.data.get("password")
+        if password and v != password:
             raise ValueError("两次输入的密码不一致")
         return v
 
