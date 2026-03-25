@@ -1,8 +1,11 @@
 import json
 from pathlib import Path
 from sqlalchemy.orm import Session
-from ..models import MenuItem
-from ..database import SessionLocal
+from ..models import MenuItem, Base
+from ..database import SessionLocal, engine
+
+# 自动创建所有表
+Base.metadata.create_all(bind=engine)
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 DATA_FILE = BASE_DIR / "data" / "foodMsg.json"
@@ -12,7 +15,7 @@ IMAGE_DIR = BASE_DIR / "data" / "images"
 def normalize(value):
     """把 list 转成字符串，把 None 转成空字符串"""
     if isinstance(value, list):
-        return "、".join(value)  # 用顿号连接更符合中文
+        return "、".join(value)
     if value is None:
         return ""
     return str(value)
@@ -20,7 +23,7 @@ def normalize(value):
 
 def import_menu_from_json(db: Session):
     if not DATA_FILE.exists():
-        print("❌ foodMsg.json 文件不存在")
+        print("foodMsg.json 文件不存在...")
         return
 
     with open(DATA_FILE, "r", encoding="utf-8") as f:
@@ -38,7 +41,6 @@ def import_menu_from_json(db: Session):
         description = normalize(item.get("description"))
         region = normalize(item.get("region"))
 
-        # 图片路径
         image_path = IMAGE_DIR / f"{raw_key}.png"
         image_url = f"/images/{raw_key}.png" if image_path.exists() else None
 
@@ -56,7 +58,7 @@ def import_menu_from_json(db: Session):
         db.add(menu_item)
 
     db.commit()
-    print("✔ 菜单导入完成")
+    print("菜单导入完成...")
 
 
 if __name__ == "__main__":

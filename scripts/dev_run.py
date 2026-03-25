@@ -7,16 +7,41 @@ import time
 ROOT = Path(__file__).resolve().parent.parent
 BACKEND_DIR = ROOT / "backend"
 FRONTEND_DIR = ROOT / "frontend"
+DB_DIR = ROOT / "db"
+DB_FILE = DB_DIR / "ordersphere.db"
+
+
+def ensure_database():
+    """如果数据库不存在，则自动生成"""
+    if DB_FILE.exists():
+        print(">>> 数据库已存在，无需生成:", DB_FILE)
+        return
+
+    print(">>> 数据库不存在，正在生成:", DB_FILE)
+
+    # 运行 import_menu
+    cmd = [sys.executable, "-m", "app.utils.import_menu"]
+    result = subprocess.run(cmd, cwd=BACKEND_DIR)
+
+    if result.returncode == 0:
+        print(">>> 数据库生成成功！")
+    else:
+        print(">>> 数据库生成失败，请检查 import_menu 脚本。")
 
 
 def run_backend():
-    # 如果你在 backend 里用了 venv，可以在这里改成 venv 下的 python
-    cmd = [sys.executable, "-m", "uvicorn", "app.main:app", "--reload", "--host", "0.0.0.0", "--port", "8000"]
+    cmd = [
+        sys.executable,
+        "-m", "uvicorn",
+        "app.main:app",
+        "--reload",
+        "--host", "0.0.0.0",
+        "--port", "8000"
+    ]
     return subprocess.Popen(cmd, cwd=BACKEND_DIR)
 
 
 def run_frontend():
-    # Windows 下用 npm.cmd，其他平台用 npm
     npm_cmd = "npm.cmd" if os.name == "nt" else "npm"
     cmd = [npm_cmd, "run", "dev", "--", "--host", "0.0.0.0", "--port", "5173"]
     return subprocess.Popen(cmd, cwd=FRONTEND_DIR)
@@ -27,8 +52,10 @@ def main():
     print("后端目录:", BACKEND_DIR)
     print("前端目录:", FRONTEND_DIR)
 
+    # ⭐ 自动生成数据库
+    ensure_database()
+
     backend_proc = run_backend()
-    # 稍等后端起来
     time.sleep(2)
     frontend_proc = run_frontend()
 
@@ -37,7 +64,6 @@ def main():
     print("按 Ctrl+C 结束所有进程。\n")
 
     try:
-        # 阻塞等待任意一个进程退出
         while True:
             backend_ret = backend_proc.poll()
             frontend_ret = frontend_proc.poll()
