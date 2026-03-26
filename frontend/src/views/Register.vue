@@ -69,12 +69,15 @@
         已有账号？
         <router-link to="/login" class="text-blue-600 hover:underline">去登录</router-link>
       </p>
+
+      <p v-if="error" class="text-red-500 text-sm mt-2">{{ error }}</p>
+      <p v-if="success" class="text-green-600 text-sm mt-2">{{ success }}</p>
     </form>
   </div>
 </template>
 
 <script setup>
-import { reactive, computed } from 'vue'
+import {reactive, computed, ref} from 'vue'
 
 const form = reactive({
   username: '',
@@ -125,17 +128,38 @@ const passwordStrength = computed(() => {
   return { ...map[score], score }
 })
 
+const error = ref('')
+const success = ref('')
 
 const isPasswordTooShort = computed(() => form.password.length > 0 && form.password.length < 6)
 const passwordMismatch = computed(() => form.confirm_password && form.password !== form.confirm_password)
 
-function onSubmit() {
+async function onSubmit() {
+  error.value = ''
+  success.value = ''
+
   if (passwordMismatch.value) {
-    alert('两次密码不一致')
+    error.value = '两次输入的密码不一致'
     return
   }
 
-  alert('注册成功（你可以在这里接后端 API）')
+  try {
+    const res = await fetch('http://127.0.0.1:8000/auth/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(form)
+    })
+
+    if (!res.ok) {
+      const data = await res.json()
+      error.value = data.detail || '注册失败'
+      return
+    }
+
+    success.value = '注册成功，请前往登录'
+  } catch (e) {
+    error.value = '网络错误'
+  }
 }
 </script>
 
