@@ -4,25 +4,28 @@
 
     <form @submit.prevent="onSubmit" class="space-y-4">
       <div>
-        <label class="block text-sm font-medium mb-1">用户名</label>
         <input
           v-model="form.username"
           type="text"
           class="input"
+          placeholder="用户名"
           required
         />
-      </div>
-
-      <div>
-        <label class="block text-sm font-medium mb-1">密码</label>
         <input
           v-model="form.password"
           type="password"
           class="input"
+          placeholder="密码"
           required
           aria-describedby="password-strength"
         />
-
+        <input
+          v-model="form.confirm_password"
+          type="password"
+          class="input"
+          placeholder="请再次输入密码"
+          required
+        />
         <!-- 密码复杂度进度条 -->
         <div class="mt-2">
           <div class="w-full bg-gray-200 h-2 rounded overflow-hidden">
@@ -44,13 +47,6 @@
       </div>
 
       <div>
-        <label class="block text-sm font-medium mb-1">确认密码</label>
-        <input
-          v-model="form.confirm_password"
-          type="password"
-          class="input"
-          required
-        />
         <p v-if="passwordMismatch" class="text-red-500 text-xs mt-1">
           两次输入的密码不一致
         </p>
@@ -59,7 +55,7 @@
       <div class="flex items-center justify-between">
         <button
           type="submit"
-          class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+          class="btn-primary"
         >
           注册
         </button>
@@ -165,6 +161,9 @@ async function onSubmit() {
 
 <style scoped>
 .input {
-  @apply w-full p-2 border rounded dark:bg-gray-700 dark:text-white;
+  @apply w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 p-2 rounded mb-3;
+}
+.btn-primary {
+  @apply w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition;
 }
 </style>
