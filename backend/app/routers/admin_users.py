@@ -39,3 +39,16 @@ def make_admin(user_id: int, db: Session = Depends(get_db), admin=Depends(get_ad
     user.is_admin = True
     db.commit()
     return {"msg": "已设为管理员"}
+
+
+@router.post("/{user_id}/cancel_admin")
+def cancel_admin(user_id: int, db: Session = Depends(get_db), admin=Depends(get_admin_user)):
+    user = db.query(models.User).filter(models.User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="用户不存在")
+    if user.username == "admin":
+        raise HTTPException(status_code=404, detail="该用户不可降级！")
+
+    user.is_admin = False
+    db.commit()
+    return {"msg": "已取消管理员资格"}

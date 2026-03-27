@@ -1,27 +1,31 @@
 <template>
-  <div class="min-h-screen bg-gray-100">
-    <header class="bg-white shadow px-6 py-4 flex items-center justify-between">
-      <h1 class="text-xl font-bold">管理后台</h1>
-      <div class="space-x-3">
-        <span class="text-sm text-gray-600">管理员：{{ user.username || '未知' }}</span>
+  <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+    <header class="px-6 py-4 flex items-center justify-between bg-white dark:bg-gray-800 shadow">
+      <h1 class="text-xl font-bold text-gray-900 dark:text-gray-100">管理后台</h1>
+
+      <div class="space-x-3 flex items-center">
+        <span class="text-sm text-gray-600 dark:text-gray-300">
+          管理员：{{ user.username || '未知' }}
+        </span>
 
         <router-link
           to="/"
-          class="text-sm text-blue-600 hover:underline"
+          class="text-sm text-blue-600 dark:text-blue-400 hover:underline"
         >
           返回前台
         </router-link>
       </div>
     </header>
-
-    <main class="max-w-6xl mx-auto mt-6 bg-white rounded shadow p-4">
-      <div class="flex border-b mb-4">
+    <main class="max-w-6xl mx-auto mt-6 bg-white dark:bg-gray-800 rounded shadow p-4">
+      <div class="flex border-b border-gray-200 dark:border-gray-700 mb-4">
         <button
           v-for="tab in tabs"
           :key="tab.key"
           @click="currentTab = tab.key"
-          class="px-4 py-2 -mb-px border-b-2"
-          :class="currentTab === tab.key ? 'border-green-600 text-green-600' : 'border-transparent text-gray-500'"
+          class="px-4 py-2 -mb-px border-b-2 transition-colors"
+          :class="currentTab === tab.key
+            ? 'border-green-600 text-green-600 dark:text-green-400'
+            : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'"
         >
           {{ tab.label }}
         </button>

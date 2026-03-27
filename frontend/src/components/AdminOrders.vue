@@ -1,32 +1,41 @@
 <template>
   <div>
     <div class="flex items-center justify-between mb-3">
-      <h2 class="text-lg font-bold">订单管理</h2>
+      <h2 class="text-lg font-bold text-gray-900 dark:text-gray-100">订单管理</h2>
     </div>
-
-    <table class="w-full text-sm border">
-      <thead class="bg-gray-100">
-        <tr>
-          <th class="border px-2 py-1">ID</th>
-          <th class="border px-2 py-1">客户名</th>
-          <th class="border px-2 py-1">明细</th>
-          <th class="border px-2 py-1">操作</th>
+    <table class="w-full text-sm border border-gray-300 dark:border-gray-700">
+      <thead class="bg-gray-100 dark:bg-gray-700">
+        <tr class="text-gray-900 dark:text-gray-100">
+          <th class="border border-gray-300 dark:border-gray-700 px-2 py-1">ID</th>
+          <th class="border border-gray-300 dark:border-gray-700 px-2 py-1">客户名</th>
+          <th class="border border-gray-300 dark:border-gray-700 px-2 py-1">明细</th>
+          <th class="border border-gray-300 dark:border-gray-700 px-2 py-1">操作</th>
         </tr>
       </thead>
-      <tbody>
-        <tr v-for="order in orders" :key="order.id">
-          <td class="border px-2 py-1">{{ order.id }}</td>
-          <td class="border px-2 py-1">{{ order.customer_name }}</td>
-          <td class="border px-2 py-1">
-            <ul>
-              <li v-for="item in order.items" :key="item.id">
+      <tbody class="text-gray-800 dark:text-gray-200">
+        <tr
+          v-for="order in orders"
+          :key="order.id"
+          class="hover:bg-gray-50 dark:hover:bg-gray-700"
+        >
+          <td class="border border-gray-300 dark:border-gray-700 px-2 py-1">{{ order.id }}</td>
+          <td class="border border-gray-300 dark:border-gray-700 px-2 py-1">{{ order.customer_name }}</td>
+
+          <td class="border border-gray-300 dark:border-gray-700 px-2 py-1">
+            <ul class="space-y-1">
+              <li
+                v-for="item in order.items"
+                :key="item.id"
+                class="text-gray-700 dark:text-gray-300"
+              >
                 菜品ID: {{ item.menu_item_id }} × {{ item.quantity }}
               </li>
             </ul>
           </td>
-          <td class="border px-2 py-1">
+
+          <td class="border border-gray-300 dark:border-gray-700 px-2 py-1">
             <button
-              class="px-2 py-1 text-xs bg-red-500 text-white rounded"
+              class="px-2 py-1 text-xs bg-red-500 text-white rounded hover:bg-red-600 dark:hover:bg-red-400"
               @click="remove(order.id)"
             >
               删除
