@@ -37,7 +37,7 @@ const login = async () => {
     userStore.setUser(payload.sub, payload.is_admin)
 
     alert('登录成功')
-    router.push('/menu')
+    await router.push('/menu')
   } catch (e) {
     alert('登录失败，请检查用户名或密码')
   }
