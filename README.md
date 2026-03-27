@@ -230,23 +230,22 @@ GET /hybridaction/zybTrackerStatisticsAction ... 404
 | 本平台                  | `OrderSphere-Hub`                                           |
 | 计算机知识丰富的 Geek / 专业用户 | `高级用户`                                                      |
 | 用于演示的用户名称            | `ExampleUser1`、`ExampleUser2`、`SampleUser1`、`SampleUser2` 等 |
-| 用于演示的料理 ID 和名称       | `#233 一个神奇的料理`、`#5 Demo Node`                               |
+| 用于演示的料理 ID 和名称       | `#233 一个神奇的料理`、`#5 Demo Food`                               |
 
 如果您发明了一个新名词，请注意在不同地方使用时保持其一致性。
 
 ## 符号约定 {#symbol}
 
-- 用 `空格` 而不是 `Tab` 进行缩进，缩进请交给 markdownlint 处理
+- 用 `空格` 而不是 `Tab` 进行缩进
 - 用 `\n` 进行换行，文件内通常不应出现 `\r`
-- 空行不能包含空白字符，应该为单纯的 `\n\n`，请交给 markdownlint 处理
+- 空行不能包含空白字符，应该为单纯的 `\n\n`
 - 在没有特殊说明的地方均使用半角符号，如: `:`，`.`，`<`，`>`，`(`，`)`。通常这些符号后面需要加上一个空格来确保间距合理
 - 在文字段落中均采用 `，` 逗号，每句话结尾需添加 `。` 句号，段末通常以 `。` 或 `:` 结尾
 - 列表条目、`tip`/`warning`/`danger` 等提示容器中的文本通常不以 `。` 结尾
 
 ## 文件结构 {#filesystem}
 
-- 将所有图片放置于和 Markdown 文件位于同一级的 `_images` 文件夹中
-- 将所有视频放置于根目录 `_videos` 文件夹中，并使用 `![](@source/_videos/foo-bar.mp4)` 的引用形式
+- 将所有图片放置于根目录 `images` 文件夹中，并使用 `![](images/_photos/foo-bar.png)` 的引用形式
 
 ## 设计元素 {#design-elements}
 
@@ -270,7 +269,7 @@ GET /hybridaction/zybTrackerStatisticsAction ... 404
 
 ## 文本修饰 {#markup}
 
-**markdownlint 被配置为不自动修复粗体或斜体的修饰字符，请注意遵守下方规则**
+**请注意遵守下方粗体或斜体的修饰字符规则**
 
 使用 `*` 添加粗体、斜体效果:
 
