@@ -55,7 +55,7 @@
             </td>
           </tr>
 
-          <!-- 新增：头像上传区域（放在用户名修改下方） -->
+          <!-- 头像上传区域 -->
           <tr>
             <td style="padding-top:18px;text-align:right;width:25%" class="text-gray-700">
               头像 :
@@ -67,7 +67,7 @@
                 </div>
 
                 <div class="flex-1">
-                  <div class="mb-2 text-sm text-gray-600">上传头像（仅支持正方形图片，服务器会缩放为 100×100）</div>
+                  <div class="mb-2 text-sm text-gray-600">上传头像（仅支持正方形图片，将被缩放为 100×100）</div>
                   <input type="file" accept="image/*" @change="onAvatarFileChange" />
                   <div class="mt-2 space-x-2">
                     <button v-if="selectedBlob" type="button" @click="uploadAvatar" class="bt_sml_main">上传头像</button>
