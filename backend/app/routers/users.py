@@ -67,13 +67,13 @@ async def upload_current_user_avatar(
     if not file.content_type.startswith("image/"):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="只支持图片文件")
 
-    # 计算保存路径，与 main.py 中挂载的 /images 对应
-    BASE_DIR = Path(__file__).resolve().parent.parent.parent
-    IMAGE_DIR = BASE_DIR / "data" / "images"
-    IMAGE_DIR.mkdir(parents=True, exist_ok=True)
+    # 计算保存路径，与 main.py 中挂载的 /user_images 对应
+    BASE_DIR = Path(__file__).resolve().parent.parent.parent  # backend 根目录
+    USER_IMAGE_DIR = BASE_DIR / "data" / "user_images"
+    USER_IMAGE_DIR.mkdir(parents=True, exist_ok=True)
 
     filename = f"user_{current_user.id}.png"
-    file_path = IMAGE_DIR / filename
+    file_path = USER_IMAGE_DIR / filename
 
     try:
         contents = await file.read()
@@ -82,8 +82,8 @@ async def upload_current_user_avatar(
     except Exception:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="保存图片失败")
 
-    # 持久化 avatar 字段到数据库（保存为静态路径）
-    avatar_path = f"/images/{filename}"
+    # 持久化 avatar 字段到数据库（保存为静态路径 /user_images/<filename>）
+    avatar_path = f"/user_images/{filename}"
     current_user.avatar = avatar_path
     db.add(current_user)
     db.commit()
