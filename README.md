@@ -10,6 +10,7 @@ OrderSphere-Hub 是一个基于 **FastAPI（Python）+ Vue3（Vite）+ SQLite** 
 - 管理端扩展接口
 - 一键启动（开发环境）
 - 生产环境可由 FastAPI 托管前端静态文件
+- 默认管理员账户 username: admin, password: admin123
 
 ---
 
