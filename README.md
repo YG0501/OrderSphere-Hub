@@ -399,3 +399,7 @@ GET /hybridaction/zybTrackerStatisticsAction ... 404
 - 用户账号被创建（状态：未验证）
 - 发送验证邮件
 ```
+
+## 许可证
+
+![GPL-v3](https://www.gnu.org/graphics/gplv3-127x51.png)
